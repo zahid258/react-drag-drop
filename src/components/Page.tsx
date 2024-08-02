@@ -4,15 +4,15 @@ import { useDrop } from 'react-dnd';
 
 import Grid from './Grid';
 import Module from './Module';
-import { GUTTER_SIZE } from '../constants';
+import { GUTTER_SIZE,CONTAINER_WIDTH } from '../constants';
 
 const Page = () => {
-  const [modules] = React.useState([
+  const [modules,setModules] = React.useState([
     { id: 1, coord: { x: 1, y: 80, w: 2, h: 200 } },
     { id: 2, coord: { x: 5, y: 0, w: 3, h: 100 } },
     { id: 3, coord: { x: 4, y: 310, w: 3, h: 200 } },
   ]);
-  const containerWidth = 1024;
+  const containerWidth = CONTAINER_WIDTH;
   const containerRef = React.useRef<HTMLDivElement>();
 
   // Wire the module to DnD drag system
@@ -39,7 +39,7 @@ const Page = () => {
     >
       <Grid height={containerHeight} />
       {modules.map((module) => (
-        <Module key={module.id} data={module} containerWidth={containerWidth} />
+        <Module key={module.id} data={module} containerWidth={containerWidth} setModules={setModules} />
       ))}
     </Box>
   );

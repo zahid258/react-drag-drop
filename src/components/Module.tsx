@@ -8,21 +8,24 @@ import { moduleW2LocalWidth, moduleX2LocalX, moduleY2LocalY } from '../helpers';
 
 type ModuleProps = {
   data: ModuleInterface,
-  containerWidth:number
+  containerWidth:number,
+  setModules:any
 };
 
 const Module = (props: ModuleProps) => {
-  const { data: { id, coord: { x, y, w, h } },containerWidth } = props;
+  const { data: { id, coord: { x, y, w, h } },containerWidth,setModules } = props;
 
-  //console.log('data',props.data);
-
+  console.log('data',props.data);
+  
   // Transform x, y to left, top
   const [{ top, left }, setPosition] = React.useState(() => ({
     top: moduleY2LocalY(y),
     left: moduleX2LocalX(x),
   }));
 
-  
+  console.log('top',top);
+
+
 
   //console.log('my-t',top, left);
 
@@ -44,6 +47,10 @@ const Module = (props: ModuleProps) => {
       top: initialPosition.current.top + movement.y,
       left: initialPosition.current.left + movement.x,
     });
+    
+    ///set the height
+    updateModule()
+    ///
     }
     /*
     else if((containerWidth - initialPosition.current.left + movement.x) <= moduleW2LocalWidth(w)){
@@ -55,7 +62,17 @@ const Module = (props: ModuleProps) => {
     */
   }, false);
 
-
+  //update module my
+  const updateModule = () => {
+      setModules((prevModules) =>
+      prevModules.map((module) =>
+        module.id === props.data.id
+          ? { ...module, coord: { ...module.coord, y: top } }
+          : module
+      )
+    );
+  };
+  ////
   // Wire the module to DnD drag system
   const [, drag] = useDrag(() => ({
     type: 'module',
