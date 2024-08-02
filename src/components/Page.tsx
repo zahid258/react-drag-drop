@@ -23,6 +23,7 @@ const Page = () => {
   const containerHeight = React.useMemo(() => (
     Math.max(...modules.map(({ coord: { y, h } }) => y + h)) + GUTTER_SIZE * 2
   ), [modules]);
+  //console.log('in page',modules)
 
   return (
     <Box
@@ -39,7 +40,7 @@ const Page = () => {
     >
       <Grid height={containerHeight} />
       {modules.map((module) => (
-        <Module key={module.id} data={module} containerWidth={containerWidth} setModules={setModules} />
+        <Module key={module.id} data={module} containerWidth={containerWidth} setModules={setModules} modules={modules} />
       ))}
     </Box>
   );
